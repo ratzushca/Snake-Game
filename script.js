@@ -24,21 +24,24 @@ function direction(event){
 }
 
 window.onload=function(){
+    
     canvas = document.querySelector('canvas');
     snake= canvas.getContext("2d");
     apple= canvas.getContext("2d");
+    drawapple();
     var frames= 3;
     setInterval(function callBoth(){
-        moveEverything();
+        moveSnake();
         drawEverything(); 
     },1000/frames);
+    
 }
 
 
 
 
 
-function moveEverything(){
+function moveSnake(){
     snake.clearRect(0,0,innerWidth,innerHeight);
     x=x+5;
 
@@ -61,14 +64,15 @@ function drawEverything(){
     colorRect(x+10,y,5,5,"black")
     colorRect(x+15,y,5,5,"blue")
     //darws the apple
-    apple.fillStyle ='red';
-    apple.beginPath();
-    apple.arc(100,100,3,0,Math.PI*2,true);
-    apple.fill();
-
-       
+      
 }
 
+function drawapple(){
+    apple.fillStyle ='red';
+    apple.beginPath();
+    apple.arc((Math.floor(Math.random()*60) * 5),(Math.floor(Math.random()*25) * 5),3,0,Math.PI*2,true);
+    apple.fill();  
+}
 function colorRect(leftX,topY, width, height, drawColor){
     snake.fillStyle = drawColor;
     snake.fillRect(leftX,topY, width, height);
