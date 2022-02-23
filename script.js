@@ -1,6 +1,7 @@
 
 
 const box = 5;
+const gameScore = document.getElementById('score');
 
 let snake =[];
 snake[0]={
@@ -15,8 +16,9 @@ let apple = {
 }
 
 let d;
+let score=0;
 
-window.onload=function(){
+window.onload=function startGame(){
     canvas = document.querySelector('canvas');
     context= canvas.getContext("2d");
     var frames= 3;
@@ -29,19 +31,19 @@ window.onload=function(){
 document.addEventListener("keydown",direction);
 function direction(event){
     let key = event.keyCode;
-    if( key == 37 && d != "RIGHT"){
+    if( key === 37 && d != "RIGHT"){
        
         d = "LEFT";
-    }else if(key == 38 && d != "DOWN"){
+    }else if(key === 38 && d != "DOWN"){
         d = "UP";
       
-    }else if(key == 39 && d != "LEFT"){
+    }else if(key === 39 && d != "LEFT"){
         d = "RIGHT";
        
-    }else if(key == 40 && d != "UP"){
+    }else if(key === 40 && d != "UP"){
         d = "DOWN";
        
-    }else if (key == 32){
+    }else if (key === 32){
         d="START"
     }
 
@@ -50,31 +52,40 @@ function direction(event){
 function snakedraw(){
     for( let i = 0; i < snake.length ; i++){
         context.clearRect(0, 0, canvas.width, canvas.height)
-        context.fillStyle = ( i == 0 )? "green" : "black";
+        context.fillStyle = ( i === 0 )? "green" : "black";
         context.fillRect(snake[i].x,snake[i].y,box,box);
-     
+
+    if(snake[0].x === apple.x && snake[0].y === apple.y){
+            score++;
+            gameScore.textContent= `Score: ${score}`;
+        }
+
+
         // which direction
-        if( d == "LEFT"){
+    if( d === "LEFT"){
          snake[0].x-= box;
          break;
-        } else if( d == "UP") {
+    } else if( d === "UP") {
         snake[0].y -= box;
-        break;
-        } else if( d == "RIGHT"){
+    break;
+    } else if( d === "RIGHT"){
         snake[0].x += box;
-        break;
-        }else if( d == "DOWN"){ 
+    break;
+    }else if( d === "DOWN"){ 
         snake[0].y += box;
-        break;
-        }else if( d == "START") 
+    break;
+    }else if( d === "START") 
         snake[0].x += box;
-        break;
+    break;
+
+   
 
 }
 }
+
 
 function appledraw(){
-    context.beginPath();
+    
     context.fillStyle='red';
     context.fillRect(apple.x, apple.y,box,box);
     context.fill(); 
