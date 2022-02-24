@@ -2,13 +2,19 @@
 
 const box = 5;
 const gameScore = document.getElementById('score');
+const prevoiusScore = document.getElementById('previousscore');
 
 let snake =[];
 snake[0]={
-    x:0*box, //max 59
+    x:1*box, //max 59
     y:9*box,  //max 29
-
+   
 };
+// snake[1]={
+//     x:2*box,
+//     y:9*box
+// };
+
 
 let apple = {
     x : Math.floor(Math.random()*59+1) * box,
@@ -17,6 +23,7 @@ let apple = {
 
 let d;
 let score=0;
+let bestScore = score;
 
 window.onload=function startGame(){
     canvas = document.querySelector('canvas');
@@ -25,6 +32,7 @@ window.onload=function startGame(){
     setInterval(function callBoth(){
     snakedraw();
     appledraw(); 
+    gameOver();
     },1000/frames);
 }
 
@@ -54,12 +62,19 @@ function snakedraw(){
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.fillStyle = ( i === 0 )? "green" : "black";
         context.fillRect(snake[i].x,snake[i].y,box,box);
+       
 
     if(snake[0].x === apple.x && snake[0].y === apple.y){
             score++;
-            gameScore.textContent= `Score: ${score}`;
+            gameScore.textContent = `Score: ${score}`
+        
+            apple = {
+                x : Math.floor(Math.random()*59+1) * box,
+                y : Math.floor(Math.random()*29+1) * box
+            }   
+        // }else{
+        //     snake.pop();
         }
-
 
         // which direction
     if( d === "LEFT"){
@@ -76,13 +91,10 @@ function snakedraw(){
     break;
     }else if( d === "START") 
         snake[0].x += box;
-    break;
-
-   
+    break; 
 
 }
 }
-
 
 function appledraw(){
     
@@ -91,6 +103,37 @@ function appledraw(){
     context.fill(); 
 }
 
+
+function gameOver(){
+    
+
+    if(snake[0].x>=canvas.width+box||snake[0].x<-box|| snake[0].y>=canvas.height+box|| snake[0].y<-box){
+        alert('Game Over');
+
+    if(score<bestScore){
+       
+            gameScore.textContent = `Score: ${0}`; 
+    }else{
+            gameScore.textContent = `Score: ${0}`; 
+        prevoiusScore.textContent = `Best Score: ${score}`;
+        
+        }
+    
+
+        snake[0]={
+            x:9*box, //max 59
+            y:9*box,  //max 29
+        
+        };
+
+        apple = {
+            x : Math.floor(Math.random()*59+1) * box,
+            y : Math.floor(Math.random()*29+1) * box
+        }
+        return;
+      
+    }
+}
 
 
       
