@@ -72,8 +72,6 @@ function snakedraw(){
                 x : Math.floor(Math.random()*59+1) * box,
                 y : Math.floor(Math.random()*29+1) * box
             }   
-        // }else{
-        //     snake.pop();
         }
 
         // which direction
@@ -109,17 +107,6 @@ function gameOver(){
 
     if(snake[0].x>=canvas.width+box||snake[0].x<-box|| snake[0].y>=canvas.height+box|| snake[0].y<-box){
         alert('Game Over');
-
-    if(score<bestScore){
-       
-            gameScore.textContent = `Score: ${0}`; 
-    }else{
-            gameScore.textContent = `Score: ${0}`; 
-        prevoiusScore.textContent = `Best Score: ${score}`;
-        
-        }
-    
-
         snake[0]={
             x:9*box, //max 59
             y:9*box,  //max 29
