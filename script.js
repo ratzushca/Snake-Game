@@ -10,10 +10,7 @@ snake[0]={
     y:9*box,  //max 29
    
 };
-// snake[1]={
-//     x:2*box,
-//     y:9*box
-// };
+
 
 
 let apple = {
@@ -29,7 +26,7 @@ window.onload=function startGame(){
     canvas = document.querySelector('canvas');
     context= canvas.getContext("2d");
     var frames= 3;
-    setInterval(function callBoth(){
+    setInterval(function callAll(){
     snakedraw();
     appledraw(); 
     gameOver();
