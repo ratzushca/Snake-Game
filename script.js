@@ -58,12 +58,14 @@ function direction(event){
 }
 
 function snakedraw(){
+    
+    context.clearRect(0, 0, canvas.width, canvas.height)
     for( let i = 0; i < snake.length ; i++){
-        context.clearRect(0, 0, canvas.width, canvas.height)
+        
         context.fillStyle = ( i === 0 )? "green" : "black";
         context.fillRect(snake[i].x,snake[i].y,box,box);
-       
-
+     
+ 
     if(snake[0].x === apple.x && snake[0].y === apple.y){
             score++;
             gameScore.textContent = `Score: ${score}`
@@ -71,7 +73,13 @@ function snakedraw(){
             apple = {
                 x : Math.floor(Math.random()*59+1) * box,
                 y : Math.floor(Math.random()*29+1) * box
-            }   
+
+            } 
+
+           
+            snake.pop();
+               
+           
         }
 
         // which direction
@@ -90,9 +98,17 @@ function snakedraw(){
     }else if( d === "START") 
         snake[0].x += box;
     break; 
+    
 
 }
+var nHead = {
+    x: snake[0].x,
+    y: snake[0].y
+   }
+   
+   snake.unshift(nHead);
 }
+
 
 function appledraw(){
     
