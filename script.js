@@ -144,7 +144,7 @@ function gameOver(){
 
 function ranOver() {
     for (let i = 3; i < snake.length; i++) {
-      let hitBody = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
+      let hitBody = snake[i].x === snake[1].x && snake[i].y === snake[1].y;
       if (hitBody === true) {
         alert("You ran into yourself!!!");
         snake[0]={
