@@ -1,12 +1,13 @@
 
 
 const box = 5;
+let canvas = document.getElementById('gameCanvas');
 const gameScore = document.getElementById('score');
 const prevoiusScore = document.getElementById('previousscore');
 
 let snake =[];
 snake[0]={
-    x:1*box, //max 59
+    x:9*box, //max 59
     y:9*box,  //max 29
    
 };
@@ -14,8 +15,8 @@ snake[0]={
 
 
 let apple = {
-    x : Math.floor(Math.random()*59+1) * box,
-    y : Math.floor(Math.random()*29+1) * box
+    x : Math.floor(Math.random()*(59+1))* box,
+    y : Math.floor(Math.random()*(29+1))* box
 }
 
 let d;
@@ -27,10 +28,13 @@ window.onload=function startGame(){
     context= canvas.getContext("2d");
     var frames= 3;
     setInterval(function callAll(){
-    snakedraw();
-    appledraw(); 
+    snakeDraw();
+    snakeEatsApple();
+    appleDraw(); 
     gameOver();
-    },1000/frames);
+    moveSnake();
+    gameOverly();
+    },500/frames);
 }
 
 document.addEventListener("keydown",direction);
@@ -54,86 +58,110 @@ function direction(event){
 
 }
 
-function snakedraw(){
+function snakeDraw(){
     
     context.clearRect(0, 0, canvas.width, canvas.height)
     for( let i = 0; i < snake.length ; i++){
         
         context.fillStyle = ( i === 0 )? "green" : "black";
         context.fillRect(snake[i].x,snake[i].y,box,box);
-     
+    }
+};    
  
+
+function snakeEatsApple(){
     if(snake[0].x === apple.x && snake[0].y === apple.y){
-            score++;
+           //increment score 
+        score++;
             gameScore.textContent = `Score: ${score}`
-        
+        //re-generate apple
             apple = {
                 x : Math.floor(Math.random()*59+1) * box,
                 y : Math.floor(Math.random()*29+1) * box
-
-            } 
-
-           
-            snake.pop();
-               
-           
-        }
-
-        // which direction
-    if( d === "LEFT"){
-         snake[0].x-= box;
-         break;
-    } else if( d === "UP") {
-        snake[0].y -= box;
-    break;
-    } else if( d === "RIGHT"){
-        snake[0].x += box;
-    break;
-    }else if( d === "DOWN"){ 
-        snake[0].y += box;
-    break;
-    }else if( d === "START") 
-        snake[0].x += box;
-    break; 
-    
-
-}
-var nHead = {
+            }
+// grow snake
+const snakeHead = {
     x: snake[0].x,
     y: snake[0].y
    }
    
-   snake.unshift(nHead);
+   snake.unshift(snakeHead);
+   
 }
+};          
 
-
-function appledraw(){
+function appleDraw(){
     
     context.fillStyle='red';
     context.fillRect(apple.x, apple.y,box,box);
     context.fill(); 
 }
 
+function moveSnake(){
+//make the snake move like a link in a chain
+    for(let i = snake.length - 1; i>0 ;i--){
+        snake[i] = Object.assign({}, snake[ i - 1]);
+    }
+//don't scrunche up the snake
+    if(!d)return;
+
+//move the snake based on direction
+
+    if( d === "LEFT"){
+         snake[0].x-= box;      
+    } else if( d === "UP") {
+        snake[0].y -= box;  
+    } else if( d === "RIGHT"){
+        snake[0].x += box;  
+    }else if( d === "DOWN"){ 
+        snake[0].y += box;  
+    }else if( d === "START") 
+        snake[0].x += box;      
+}
+
+
+
 
 function gameOver(){
     
-
-    if(snake[0].x>=canvas.width+box||snake[0].x<-box|| snake[0].y>=canvas.height+box|| snake[0].y<-box){
+    if(snake[0].x>=canvas.width||
+       snake[0].x<-0||
+       snake[0].y>=canvas.height||
+       snake[0].y<-0){
         alert('Game Over');
         snake[0]={
             x:9*box, //max 59
             y:9*box,  //max 29
-        
-        };
-
-        apple = {
-            x : Math.floor(Math.random()*59+1) * box,
-            y : Math.floor(Math.random()*29+1) * box
+            
         }
-        return;
       
+        apple = {
+            x : Math.floor(Math.random()*(59+1)) * box,
+            y : Math.floor(Math.random()*(29+1)) * box
+        }
+        snake.splice(1);
+        
+        return;
     }
 }
 
+function gameOverly() {
+    for (let i = 3; i < snake.length; i++) {
+      let hitBody = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
+      if (hitBody === true) {
+        alert("You ran into yourself!!!");
+        snake[0]={
+            x:9*box, //max 59
+            y:9*box,  //max 29  
+        }
 
-      
+        apple = {
+            x : Math.floor(Math.random()*(59+1)) * box,
+            y : Math.floor(Math.random()*(29+1)) * box
+        }
+        snake.splice(1);
+        
+        return;
+      }
+    }
+  }
