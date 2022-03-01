@@ -62,7 +62,7 @@ function snakeDraw(){
     context.clearRect(0, 0, canvas.width, canvas.height)
     for( let i = 0; i < snake.length ; i++){
         
-        context.fillStyle = ( i === 0 )? "green" : "black";
+        context.fillStyle = ( i === 0 )? "green" : "yellow";
         context.fillRect(snake[i].x,snake[i].y,box,box);
     }
 };    
