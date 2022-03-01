@@ -13,10 +13,9 @@ snake[0]={
 };
 
 
-
 let apple = {
-    x : Math.floor(Math.random()*(59+1))* box,
-    y : Math.floor(Math.random()*(29+1))* box
+    x : Math.floor((Math.random()*(canvas.width-box))/box)*box,
+    y : Math.floor((Math.random()*(canvas.height-box))/box)*box
 }
 
 let d;
@@ -33,7 +32,7 @@ window.onload=function startGame(){
     appleDraw(); 
     gameOver();
     moveSnake();
-    gameOverly();
+    ranOver();
     },500/frames);
 }
 
@@ -76,8 +75,8 @@ function snakeEatsApple(){
             gameScore.textContent = `Score: ${score}`
         //re-generate apple
             apple = {
-                x : Math.floor(Math.random()*59+1) * box,
-                y : Math.floor(Math.random()*29+1) * box
+                x : Math.floor(Math.random()*59+1) *box,
+                y : Math.floor(Math.random()*29+1) *box
             }
 // grow snake
 const snakeHead = {
@@ -120,8 +119,6 @@ function moveSnake(){
 }
 
 
-
-
 function gameOver(){
     
     if(snake[0].x>=canvas.width||
@@ -136,8 +133,8 @@ function gameOver(){
         }
       
         apple = {
-            x : Math.floor(Math.random()*(59+1)) * box,
-            y : Math.floor(Math.random()*(29+1)) * box
+            x : Math.floor((Math.random()*(canvas.width-box))/box)*box,
+            y : Math.floor((Math.random()*(canvas.height-box))/box)*box
         }
         snake.splice(1);
         
@@ -145,7 +142,7 @@ function gameOver(){
     }
 }
 
-function gameOverly() {
+function ranOver() {
     for (let i = 3; i < snake.length; i++) {
       let hitBody = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
       if (hitBody === true) {
@@ -156,8 +153,8 @@ function gameOverly() {
         }
 
         apple = {
-            x : Math.floor(Math.random()*(59+1)) * box,
-            y : Math.floor(Math.random()*(29+1)) * box
+            x : Math.floor((Math.random()*(canvas.width-box))/box)*box,
+            y : Math.floor((Math.random()*(canvas.height-box))/box)*box
         }
         snake.splice(1);
         
